@@ -6,7 +6,7 @@
 /*   By: dcornea <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 10:03:31 by dcornea           #+#    #+#             */
-/*   Updated: 2017/05/02 12:28:42 by dcornea          ###   ########.fr       */
+/*   Updated: 2017/05/02 19:29:26 by dcornea          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "includes/mlx.h"
@@ -31,7 +31,7 @@ static void julia(int it, int pd, enemi e)
 	int color; 
 //	cout << "Enter c" << endl;
 //	cin >> re >> im;
-	im = -0.8 ; 
+	im = 3.576; 
 	for (int i = fx(-2.0); i <= fx(2.0); i++)
 	{
 		for (int j = fy(-2.0); j >= fy(2.0); j--)
@@ -60,22 +60,49 @@ static void julia(int it, int pd, enemi e)
 		}
 	}
 }
+/*
+int image_pixel_put(char *my_image, int x, int y, int color); 
+{
+	int i; 
+	int j;
 
 
+	i = 4 * x * y; 
+	 
+	lseek(i); 
+	while (i < 3) 
+	{
+		
+	}
+}
+*/
 
 int main ()
 {
 	enemi e;
+	void *image; 
+	int *img_data; 
+	int bits_per_pixel; 
+	int size_line;
+	int endian; 
 	int x; 
 	int y; 
 	int i; 
-
+//&bits_per_pixel = 4; 
+//&size_line = 800; 
+	
 	x = 300; 
 	y = 200; 
 
 	e.mlx = mlx_init();
-	e.win = mlx_new_window(e.mlx, 1000, 1000, "Julia Set");
-	julia(600, 1, e); 
+	e.win = mlx_new_window(e.mlx, 800, 800, "Julia Set");
+//	julia(600, 1, e);
+	image =  mlx_new_image(e.mlx, 800, 800);
+img_data =(int *) mlx_get_data_addr(image, &bits_per_pixel, &size_line, &endian); 
+	img_data[0] = mlx_get_color_value(e.mlx, 0x00FF00); 
+	img_data[800] = mlx_get_color_value(e.mlx, 0x00FFFF);
+	//TO DO: FUNCTIA CARE SA DESENEZE IN IMAGINE IN SITEMUL AXELOR DE COORDONATE XoY
+	//	printf("%d\n", img_data[0]); 
 /*
 	i = 0; 
 	while (y < x)
@@ -88,7 +115,10 @@ int main ()
 		y++; 
 	}
 	*/
+	mlx_put_image_to_window(e.mlx, e.win, image, 0, 0); 
+	mlx_destroy_image(e.mlx, image);
 	mlx_loop(e.mlx);
+return (0); 
 }
 
 
