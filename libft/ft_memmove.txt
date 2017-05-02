@@ -1,0 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dcalcaia <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/12/28 20:52:20 by dcalcaia          #+#    #+#             */
+/*   Updated: 2016/12/29 18:31:17 by dcalcaia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memmove(void *s1, void *s2, size_t n)
+{
+	size_t		i;
+	const char	*src;
+	char		*dst;
+
+	src = s2;
+	dst = s1;
+	if (dst > src)
+	{
+		i = n;
+		while (i > 0)
+		{
+			dst[i - 1] = src[i - 1];
+			i--;
+		}
+	}
+	else if (dst < src)
+		ft_memcpy(dst, src, n);
+	return (s1);
+}
