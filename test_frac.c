@@ -6,7 +6,7 @@
 /*   By: dcornea <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 10:03:31 by dcornea           #+#    #+#             */
-/*   Updated: 2017/05/02 19:29:26 by dcornea          ###   ########.fr       */
+/*   Updated: 2017/05/03 13:20:49 by dcornea          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "includes/mlx.h"
@@ -60,22 +60,24 @@ static void julia(int it, int pd, enemi e)
 		}
 	}
 }
+
 /*
-int image_pixel_put(char *my_image, int x, int y, int color); 
+ * Aceasta functie deseneaza un pixel in imagine
+ * @param: enemi e - unde sunt stocate mlx si win-ul 
+ * 		  my_image - este adresa imaginii obtinuta cu mlx_get_data_addr
+ * 		  		 x - coordonata x a pixelului de desenat
+ * 		  		 y - coordonata y a pixelului de desenat
+ * 		     color - culoarea in format 0xFFFFFF
+ * @return: nu returneaza nimic
+ */
+void image_pixel_put(enemi e, int *my_image, int x, int y, int color) 
 {
-	int i; 
-	int j;
-
-
-	i = 4 * x * y; 
-	 
-	lseek(i); 
-	while (i < 3) 
-	{
-		
-	}
+	int pixel; 
+	
+	pixel = x*HEIGHT + y;  
+	my_image[pixel] = mlx_get_color_value(e.mlx, color);
 }
-*/
+
 
 int main ()
 {
@@ -88,37 +90,27 @@ int main ()
 	int x; 
 	int y; 
 	int i; 
-//&bits_per_pixel = 4; 
-//&size_line = 800; 
-	
+	int j = 0; 
+
 	x = 300; 
-	y = 200; 
+	y = 300; 
 
 	e.mlx = mlx_init();
-	e.win = mlx_new_window(e.mlx, 800, 800, "Julia Set");
-//	julia(600, 1, e);
-	image =  mlx_new_image(e.mlx, 800, 800);
-img_data =(int *) mlx_get_data_addr(image, &bits_per_pixel, &size_line, &endian); 
-	img_data[0] = mlx_get_color_value(e.mlx, 0x00FF00); 
-	img_data[800] = mlx_get_color_value(e.mlx, 0x00FFFF);
-	//TO DO: FUNCTIA CARE SA DESENEZE IN IMAGINE IN SITEMUL AXELOR DE COORDONATE XoY
-	//	printf("%d\n", img_data[0]); 
-/*
+	e.win = mlx_new_window(e.mlx, HEIGHT , WIDTH, "Julia Set");
+    image =  mlx_new_image(e.mlx, HEIGHT, WIDTH);
+	img_data =(int *) mlx_get_data_addr(image, &bits_per_pixel, &size_line, &endian); 
 	i = 0; 
-	while (y < x)
+	while (i < x)
 	{
-		while (i<y) 
-		{
-			mlx_pixel_put(e.mlx, e.win, x, y, 0xFF00FF);
-			i++; 
-		}
-		y++; 
+		image_pixel_put(e, img_data, i, i, 0xFFAAFF); 
+		i++; 
 	}
-	*/
+	
 	mlx_put_image_to_window(e.mlx, e.win, image, 0, 0); 
 	mlx_destroy_image(e.mlx, image);
 	mlx_loop(e.mlx);
-return (0); 
+
+	return (0); 
 }
 
 
